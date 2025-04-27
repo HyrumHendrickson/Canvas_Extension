@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Canvas Toolbar Extender",
+  "version": "1.0",
+  "description": "Add a custom button to the Canvas LMS sidebar.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://*.instructure.com/*"],
+      "js": ["content.js"],
+      "css": ["style.css"]
+    }
+  ]
+}

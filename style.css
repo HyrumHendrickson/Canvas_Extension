@@ -1,0 +1,19 @@
+#my-extension-menu {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  width: 250px;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  padding: 16px;
+  z-index: 9999;
+  display: none;
+  border-radius: 8px;
+}
+#my-extension-menu.show {
+  display: block;
+}
+.menu-content {
+  font-family: Arial, sans-serif;
+}
