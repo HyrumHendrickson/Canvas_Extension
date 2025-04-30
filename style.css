@@ -1,0 +1,30 @@
+/* Styles for custom button states */
+#my-extension-button:focus {
+  outline: none;
+}
+
+/* Make sure the iframe takes up all available space */
+#extension-iframe {
+  width: 100%;
+  min-height: 700px;
+  border: none;
+  background: white;
+}
+
+/* Overlay styling for fallback mode */
+#extension-overlay {
+  box-shadow: -3px 0 10px rgba(0,0,0,0.1);
+}
+
+/* Ensure Canvas content isn't showing behind our iframe in fallback mode */
+body.has-extension-overlay #application,
+body.has-extension-overlay #content,
+body.has-extension-overlay .ic-app-main-content {
+  visibility: hidden;
+}
+
+/* Only the left sidebar should remain visible */
+body.has-extension-overlay .ic-app-header {
+  visibility: visible !important;
+  z-index: 9999;
+}

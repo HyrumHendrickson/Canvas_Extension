@@ -6,33 +6,91 @@
     <title>Canvas Extension Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif; /* Match Canvas font */
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
-        }
-        .container {
-            text-align: center;
             padding: 2rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 100%;
+            background-color: #fff;
+            color: #2D3B45;
+            height: 100%;
+            min-height: 100vh;
+        }
+        .extension-header {
+            border-bottom: 1px solid #C7CDD1;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .extension-content {
+            max-width: 960px;
+            margin: 0 auto;
         }
         h1 {
             color: #0374B5;
+            font-weight: 500;
+            font-size: 2.375rem;
+            margin-top: 0;
+        }
+        .card {
+            border: 1px solid #C7CDD1;
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: #f5f5f5;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #0374B5;
+            color: white;
+            border-radius: 3px;
+            padding: 8px 14px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+        .btn:hover {
+            background-color: #0061A3;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hello World</h1>
-        <p>This is your Canvas extension page.</p>
+    <div class="extension-content">
+        <div class="extension-header">
+            <h1>Hello World</h1>
+            <button class="close-btn" id="close-page">&times;</button>
+        </div>
+        <div class="card">
+            <h2>Welcome to Your Canvas Extension</h2>
+            <p>This page now loads directly within the Canvas interface.</p>
+            <p>You can customize this page with any content or functionality you need.</p>
+            <a href="#" class="btn">Sample Button</a>
+        </div>
     </div>
+
+    <script>
+        // Simple script to allow closing the page and returning to Canvas
+        document.getElementById('close-page').addEventListener('click', function() {
+            // Check if we're in an iframe
+            if (window.parent && window.parent !== window) {
+                // Send message to parent to close
+                window.parent.postMessage('close-extension-page', '*');
+            }
+        });
+        
+        // Show close button only if in an overlay (not in an iframe within the content)
+        window.addEventListener('message', function(event) {
+            if (event.data === 'show-close-button') {
+                document.getElementById('close-page').style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
