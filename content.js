@@ -1,7 +1,6 @@
 // Function to wait for the sidebar menu to be available
 function waitForSidebarMenu() {
   const menu = document.querySelector('ul#menu');
-
   if (menu) {
     console.log("Sidebar menu found! Injecting button...");
     injectButton(menu);
@@ -26,36 +25,25 @@ function injectButton(menu) {
       <span class="menu-item__text">My Menu</span>
     </a>
   `;
-
+  
   // Append the new button to the menu
   menu.appendChild(newButton);
 
-  // Create a simple popup menu
-  const popupMenu = document.createElement('div');
-  popupMenu.id = 'my-extension-menu';
-  popupMenu.innerHTML = `
-    <div class="menu-content">
-      <h3>Hello from Extension!</h3>
-      <p>This is a default menu.</p>
-    </div>
-  `;
-  document.body.appendChild(popupMenu);
-
+  // Add event listener to the button
   document.getElementById('my-extension-button').addEventListener('click', (e) => {
-  e.preventDefault();
-
-  // Remove active class from all sidebar items
-  document.querySelectorAll('.ic-app-header__menu-list-item').forEach(item => {
-    item.classList.remove('ic-app-header__menu-list-item--active');
+    e.preventDefault();
+    
+    // Remove active class from all sidebar items
+    document.querySelectorAll('.ic-app-header__menu-list-item').forEach(item => {
+      item.classList.remove('ic-app-header__menu-list-item--active');
+    });
+    
+    // Add active class to this item
+    newButton.classList.add('ic-app-header__menu-list-item--active');
+    
+    // Open the HTML page in a new tab
+    window.open(chrome.runtime.getURL('myPage.html'), '_blank');
   });
-
-  // Add active class to this item
-  newButton.classList.add('ic-app-header__menu-list-item--active');
-
-  // Toggle the popup menu
-  popupMenu.classList.toggle('show');
-});
-
 }
 
 // Start the process

@@ -13,5 +13,11 @@
       "js": ["content.js"],
       "css": ["style.css"]
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["myPage.html"],
+      "matches": ["https://*.instructure.com/*"]
+    }
   ]
 }
