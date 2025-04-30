@@ -16,7 +16,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["myPage.html"],
+      "resources": ["index.html"],
       "matches": ["https://*.instructure.com/*"]
     }
   ]

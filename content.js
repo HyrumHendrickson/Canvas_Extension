@@ -70,7 +70,7 @@ function injectButton(menu) {
       
       // Create our extension iframe
       const iframe = document.createElement('iframe');
-      iframe.src = chrome.runtime.getURL('myPage.html');
+      iframe.src = chrome.runtime.getURL('index.html');
       iframe.style.width = '100%';
       iframe.style.height = '100vh';
       iframe.style.border = 'none';
@@ -105,7 +105,7 @@ function injectButton(menu) {
       
       // Create iframe for our custom page
       const iframe = document.createElement('iframe');
-      iframe.src = chrome.runtime.getURL('myPage.html');
+      iframe.src = chrome.runtime.getURL('index.html');
       iframe.style.width = '100%';
       iframe.style.height = '100%';
       iframe.style.border = 'none';
