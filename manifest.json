@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Canvas Toolbar Extender",
-  "version": "1.0",
-  "description": "Add a custom button to the Canvas LMS sidebar.",
+  "name": "Canvas Python Code Editor",
+  "version": "2.0",
+  "description": "Add a Python code editor with execution capabilities to Canvas LMS. Run Python code directly in your browser with support for NumPy, Pandas, and Matplotlib.",
   "permissions": [
     "activeTab",
     "scripting"
@@ -11,7 +11,8 @@
     {
       "matches": ["https://*.instructure.com/*"],
       "js": ["content.js"],
-      "css": ["style.css"]
+      "css": ["style.css"],
+      "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [
@@ -19,5 +20,11 @@
       "resources": ["index.html"],
       "matches": ["https://*.instructure.com/*"]
     }
-  ]
+  ],
+  "icons": {
+    "16": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAzNzRCNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0LDJINkEyLDIgMCAwLDAgNCw0VjIwQTIsMiAwIDAsMCA2LDIySDE4QTIsMiAwIDAsMCAyMCwyMFY4TDE0LDJNMTgsMjBINlY0SDEzVjlIMThWMjBaIiAvPgo8cGF0aCBkPSJNOCwxMlYxNEgxNlYxMkg4TTgsxTZWMThIMTNWMTZIOFoiLz4KPC9zdmc+",
+    "48": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAzNzRCNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0LDJINkEyLDIgMCAwLDAgNCw0VjIwQTIsMiAwIDAsMCA2LDIySDE4QTIsMiAwIDAsMCAyMCwyMFY4TDE0LDJNMTgsMjBINlY0SDEzVjlIMThWMjBaIiAvPgo8cGF0aCBkPSJNOCwxMlYxNEgxNlYxMkg4TTgsMTZWMThIMTNWMTZIOFoiLz4KPC9zdmc+",
+    "128": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDM3NEI1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTQsMkg2QTIsMiAwIDAsMCA0LDRWMjBBMiwyIDAgMCwwIDYsMjJIMThBMiwyIDAgMCwwIDIwLDIwVjhMMTQsMk0xOCwyMEg2VjRIMTNWOUgxOFYyMFoiIC8+CjxwYXRoIGQ9Ik04LDEyVjE0SDE2VjEySDhNOCwxNlYxOEgxM1YxNkg4WiIvPgo8L3N2Zz4="
+  },
+  "author": "Hyrum Hendrickson"
 }
