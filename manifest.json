@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Canvas Python Code Editor",
   "version": "2.0",
-  "description": "Add a Python code editor with execution capabilities to Canvas LMS. Run Python code directly in your browser with support for NumPy, Pandas, and Matplotlib.",
+  "description": "Add a Python code editor with execution capabilities to Canvas LMS. Run Python code directly in your browser.",
   "permissions": [
     "activeTab",
     "scripting"
@@ -21,8 +21,5 @@
       "matches": ["https://*.instructure.com/*"]
     }
   ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; object-src 'self'; worker-src 'self'"
-  },
   "author": "Hyrum Hendrickson"
 }
