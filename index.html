@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canvas Extension - Python Code Editor</title>
     
-    <!-- CodeMirror CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
-    
     <style>
         body {
             font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -78,11 +74,43 @@
             border-radius: 4px;
             overflow: hidden;
             margin-bottom: 1rem;
+            position: relative;
         }
         
-        .CodeMirror {
+        .code-editor {
+            width: 100%;
             height: 100%;
+            border: none;
+            padding: 1rem;
+            font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
             font-size: 14px;
+            line-height: 1.5;
+            background-color: #2d3748;
+            color: #e2e8f0;
+            resize: none;
+            outline: none;
+            tab-size: 4;
+        }
+        
+        .code-editor::placeholder {
+            color: #a0aec0;
+        }
+        
+        .line-numbers {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            background-color: #1a202c;
+            color: #718096;
+            font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 1rem 0.5rem;
+            border-right: 1px solid #4a5568;
+            user-select: none;
+            overflow: hidden;
         }
         
         .controls {
@@ -101,6 +129,7 @@
             font-weight: 500;
             cursor: pointer;
             font-size: 14px;
+            transition: background-color 0.2s;
         }
         
         .btn:hover {
@@ -129,7 +158,8 @@
             height: 200px;
             border: 1px solid #C7CDD1;
             border-radius: 4px;
-            background-color: #f8f9fa;
+            background-color: #1a202c;
+            color: #e2e8f0;
             overflow-y: auto;
             padding: 1rem;
             font-family: 'Courier New', monospace;
@@ -138,7 +168,7 @@
         }
         
         .output-container.error {
-            color: #dc3545;
+            color: #fc8181;
         }
         
         .loading {
@@ -162,6 +192,34 @@
         .example-btn:hover {
             background-color: #218838;
         }
+        
+        .info-box {
+            background-color: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-box h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        .keyboard-shortcuts {
+            display: flex;
+            gap: 1rem;
+            font-size: 12px;
+            color: #666;
+            align-items: center;
+        }
+        
+        .shortcut {
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
@@ -173,11 +231,21 @@
         
         <div class="extension-content">
             <div id="loading" class="loading">
-                <p>Loading Python interpreter... This may take a few moments.</p>
-                <p>Please wait while we initialize Pyodide.</p>
+                <p>Initializing Python environment...</p>
+                <p>This may take a moment on first load.</p>
             </div>
             
             <div id="main-content" class="code-section" style="display: none;">
+                <div class="info-box">
+                    <h3>Getting Started</h3>
+                    <p>This Python editor runs entirely in your browser using Pyodide. Try the examples below or write your own Python code!</p>
+                    <div class="keyboard-shortcuts">
+                        <span>Shortcuts:</span>
+                        <span><span class="shortcut">Ctrl+Enter</span> Run Code</span>
+                        <span><span class="shortcut">Tab</span> Indent</span>
+                    </div>
+                </div>
+                
                 <div class="controls">
                     <button id="run-btn" class="btn">▶ Run Code</button>
                     <button id="clear-btn" class="btn btn-secondary">Clear Output</button>
@@ -187,24 +255,34 @@
                 <div class="examples">
                     <button class="btn example-btn" onclick="loadExample('hello')">Hello World</button>
                     <button class="btn example-btn" onclick="loadExample('math')">Math Example</button>
-                    <button class="btn example-btn" onclick="loadExample('plot')">Matplotlib Plot</button>
-                    <button class="btn example-btn" onclick="loadExample('data')">Data Analysis</button>
+                    <button class="btn example-btn" onclick="loadExample('data')">Data Example</button>
+                    <button class="btn example-btn" onclick="loadExample('plot')">Simple Plot</button>
                 </div>
                 
                 <div class="editor-container">
-                    <textarea id="code-editor"># Welcome to the Python Code Editor!
-# Type your Python code here and click "Run Code" to execute it.
+                    <textarea id="code-editor" class="code-editor" spellcheck="false" placeholder="# Welcome to the Python Code Editor!
+# Type your Python code here and click 'Run Code' to execute it.
 
-print("Hello from Canvas Extension!")
+print('Hello from Canvas Extension!')
 
 # Try some basic Python:
 import math
-print(f"The value of π is approximately {math.pi:.4f}")
+print(f'The value of π is approximately {math.pi:.4f}')
 
 # You can use most Python standard library modules
 import datetime
-print(f"Current time: {datetime.datetime.now()}")
-</textarea>
+print(f'Current time: {datetime.datetime.now()}')"># Welcome to the Python Code Editor!
+# Type your Python code here and click 'Run Code' to execute it.
+
+print('Hello from Canvas Extension!')
+
+# Try some basic Python:
+import math
+print(f'The value of π is approximately {math.pi:.4f}')
+
+# You can use most Python standard library modules
+import datetime
+print(f'Current time: {datetime.datetime.now()}')</textarea>
                 </div>
                 
                 <div id="output" class="output-container">Output will appear here...</div>
@@ -212,14 +290,6 @@ print(f"Current time: {datetime.datetime.now()}")
         </div>
     </div>
 
-    <!-- Pyodide -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
-    
-    <!-- CodeMirror JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
-    
-    <!-- Extension JavaScript -->
     <script src="python-editor.js"></script>
 </body>
 </html>
