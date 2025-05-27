@@ -22,7 +22,7 @@
     }
   ],
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; frame-src https://trinket.io https://replit.com https://skulpt.org;"
+    "extension_pages": "script-src 'self'; object-src 'self'; frame-src https://trinket.io https://www.online-python.com https://www.w3schools.com;"
   },
   "author": "Hyrum Hendrickson"
 }
