@@ -84,19 +84,19 @@ for i, val in enumerate(y):
 const executors = {
     trinket: {
         name: 'Trinket',
-        baseUrl: 'https://trinket.io/embed/python/9416dfb893',
+        baseUrl: 'https://trinket.io/embed/python3/7e9dc1b77e',
         supportsCustomCode: true,
         method: 'url_params'
     },
-    replit: {
-        name: 'Replit',
-        baseUrl: 'https://replit.com/@templates/Python?embed=true',
+    coderunner: {
+        name: 'Online Python',
+        baseUrl: 'https://www.programiz.com/python-programming/online-compiler/',
         supportsCustomCode: false,
         method: 'manual'
     },
-    skulpt: {
-        name: 'Skulpt',
-        baseUrl: 'https://skulpt.org/skulpt.html',
+    w3schools: {
+        name: 'W3Schools Tryit',
+        baseUrl: 'https://www.w3schools.com/python/trypython.asp?filename=demo_default',
         supportsCustomCode: false,
         method: 'manual'
     }
@@ -123,7 +123,7 @@ function init() {
     // Load initial executor
     loadExecutor(currentExecutor);
     
-    console.log('Python Code Editor with iframe execution initialized');
+    console.log('Python Code Editor initialized successfully');
 }
 
 function setupEventListeners() {
@@ -206,18 +206,107 @@ function loadExecutor(executorType) {
     // Set iframe source
     pythonExecutor.src = config.baseUrl;
     
+    // Handle iframe load with timeout
+    let loadTimeout = setTimeout(() => {
+        loadingDiv.innerHTML = `
+            <div style="text-align: center;">
+                <p>${config.name} is taking longer than expected to load.</p>
+                <p>This might be due to network issues or the service being unavailable.</p>
+                <button onclick="location.reload()" style="background: #0374B5; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Try Again</button>
+                <button onclick="showExecutorHelp()" style="background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Alternative Options</button>
+            </div>
+        `;
+    }, 10000); // 10 second timeout
+    
     // Handle iframe load
     pythonExecutor.onload = function() {
+        clearTimeout(loadTimeout);
         loadingDiv.style.display = 'none';
         pythonExecutor.style.display = 'block';
-        showMessage(`${config.name} executor loaded!`, 'success');
+        showMessage(`${config.name} executor loaded successfully!`, 'success');
     };
     
     pythonExecutor.onerror = function() {
-        loadingDiv.textContent = `Failed to load ${config.name}. Try another executor.`;
+        clearTimeout(loadTimeout);
+        loadingDiv.innerHTML = `
+            <div style="text-align: center; color: #dc3545;">
+                <p>Failed to load ${config.name}</p>
+                <p>Try switching to a different executor or check your internet connection.</p>
+                <button onclick="showExecutorHelp()" style="background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">See Alternatives</button>
+            </div>
+        `;
         showMessage(`Failed to load ${config.name}`, 'error');
     };
 }
+
+function showExecutorHelp() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+    `;
+    
+    content.innerHTML = `
+        <h3 style="margin-top: 0; color: #0374B5;">Python Execution Options</h3>
+        <p>If the embedded executors aren't working, try these alternatives:</p>
+        
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+            <h4 style="margin-top: 0;">Online Options (Open in New Tab):</h4>
+            <ul style="margin-bottom: 0;">
+                <li><a href="https://trinket.io/python" target="_blank">Trinket.io</a> - Simple Python runner</li>
+                <li><a href="https://replit.com/languages/python3" target="_blank">Replit</a> - Full Python IDE</li>
+                <li><a href="https://colab.research.google.com/" target="_blank">Google Colab</a> - Jupyter notebooks</li>
+                <li><a href="https://www.online-python.com/" target="_blank">Online Python</a> - Quick execution</li>
+            </ul>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+            <h4 style="margin-top: 0;">Local Options:</h4>
+            <ul style="margin-bottom: 0;">
+                <li><strong>Python IDLE</strong> - Comes with Python installation</li>
+                <li><strong>VS Code</strong> - With Python extension</li>
+                <li><strong>PyCharm</strong> - Professional Python IDE</li>
+                <li><strong>Terminal/Command Prompt</strong> - Run <code>python filename.py</code></li>
+            </ul>
+        </div>
+        
+        <p><strong>Tip:</strong> Use the "Copy Code" button to quickly copy your code to any of these environments!</p>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <button onclick="this.closest('.extension-container').style.display='none'; document.body.removeChild(this.closest('div').parentElement)" style="background: #0374B5; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Got It!</button>
+        </div>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
+// Make showExecutorHelp globally available
+window.showExecutorHelp = showExecutorHelp;
 
 function runCode() {
     const code = editor.value.trim();
@@ -240,31 +329,85 @@ function runCode() {
 
 function runCodeInTrinket(code) {
     try {
-        // Encode the code for URL
-        const encodedCode = encodeURIComponent(code);
-        
-        // Create a new Trinket URL with the code
-        const trinketUrl = `https://trinket.io/embed/python/9416dfb893?start=result&showInstructions=false#code=${encodedCode}`;
-        
-        // Update iframe
-        const loadingDiv = document.getElementById('loading-executor');
-        loadingDiv.style.display = 'flex';
-        loadingDiv.textContent = 'Running your code...';
-        pythonExecutor.style.display = 'none';
-        
-        pythonExecutor.src = trinketUrl;
-        
-        pythonExecutor.onload = function() {
-            loadingDiv.style.display = 'none';
-            pythonExecutor.style.display = 'block';
-            showMessage('Code executed in Trinket!', 'success');
-        };
+        // For Trinket, we'll create a simple embed with the code
+        // Trinket doesn't support dynamic code injection via URL easily,
+        // so we'll show instructions instead for now
+        showTrinketInstructions(code);
         
     } catch (error) {
-        console.error('Error running code in Trinket:', error);
-        showMessage('Error running code. Try copying and pasting manually.', 'error');
+        console.error('Error with Trinket:', error);
+        showMessage('Error with Trinket. Showing manual instructions.', 'warning');
         showRunInstructions(code);
     }
+}
+
+function showTrinketInstructions(code) {
+    // Create a more specific modal for Trinket
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+    `;
+    
+    content.innerHTML = `
+        <h3 style="margin-top: 0; color: #0374B5;">Run Code in Trinket</h3>
+        <p><strong>Your code is ready!</strong> Follow these simple steps:</p>
+        <ol>
+            <li><strong>Look at the Trinket editor</strong> on the right →</li>
+            <li><strong>Delete any existing code</strong> in the Trinket editor</li>
+            <li><strong>Copy this code</strong> (button below) and paste it in Trinket</li>
+            <li><strong>Click the Play button</strong> in Trinket to run your code</li>
+        </ol>
+        
+        <div style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 4px; margin: 1rem 0; max-height: 200px; overflow-y: auto;">
+            <pre style="margin: 0; font-family: monospace; font-size: 12px; white-space: pre-wrap;">${code}</pre>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <button id="copy-trinket-code" style="background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-weight: bold;">Copy Code</button>
+            <button id="close-trinket-modal" style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; margin-left: 1rem;">Got It!</button>
+        </div>
+        
+        <div id="copy-status" style="text-align: center; margin-top: 1rem; color: #28a745; font-weight: bold;"></div>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Event listeners
+    content.querySelector('#copy-trinket-code').addEventListener('click', () => {
+        copyToClipboardFallback(code);
+        const status = content.querySelector('#copy-status');
+        status.textContent = 'Code copied! Now paste it in Trinket and click Play.';
+    });
+    
+    content.querySelector('#close-trinket-modal').addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
 }
 
 function showRunInstructions(code) {
@@ -294,7 +437,7 @@ function showRunInstructions(code) {
     `;
     
     content.innerHTML = `
-        <h3 style="margin-top: 0; color: #0374B5;">🚀 Run Your Code</h3>
+        <h3 style="margin-top: 0; color: #0374B5;">Run Your Code</h3>
         <p>Your code has been copied to the clipboard! Follow these steps:</p>
         <ol>
             <li><strong>Go to the executor</strong> (right panel)</li>
@@ -316,7 +459,7 @@ function showRunInstructions(code) {
     document.body.appendChild(modal);
     
     // Copy code to clipboard
-    copyToClipboard(code);
+    copyToClipboardFallback(code);
     
     // Event listeners
     content.querySelector('#close-modal').addEventListener('click', () => {
@@ -324,7 +467,7 @@ function showRunInstructions(code) {
     });
     
     content.querySelector('#copy-again').addEventListener('click', () => {
-        copyToClipboard(code);
+        copyToClipboardFallback(code);
         showMessage('Code copied again!', 'success');
     });
     
@@ -463,30 +606,42 @@ function copyCode() {
 }
 
 function copyToClipboard(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(() => {
-            showMessage('Code copied to clipboard!', 'success');
-        }).catch(() => {
-            fallbackCopy(text);
-        });
-    } else {
-        fallbackCopy(text);
-    }
+    // Always use the fallback method to avoid permissions issues
+    copyToClipboardFallback(text);
 }
 
-function fallbackCopy(text) {
+function copyToClipboardFallback(text) {
+    // Create temporary textarea
     const textarea = document.createElement('textarea');
     textarea.value = text;
     textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '-9999px';
     textarea.style.opacity = '0';
     document.body.appendChild(textarea);
     
     try {
+        // Select the text
+        textarea.focus();
         textarea.select();
-        document.execCommand('copy');
-        showMessage('Code copied to clipboard!', 'success');
+        textarea.setSelectionRange(0, text.length);
+        
+        // Try to copy
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showMessage('Code copied to clipboard!', 'success');
+        } else {
+            showMessage('Copy failed. Please select and copy manually.', 'warning');
+            // Select the editor content for manual copying
+            editor.focus();
+            editor.select();
+        }
     } catch (err) {
-        showMessage('Copy failed. Please select and copy manually.', 'error');
+        console.error('Copy error:', err);
+        showMessage('Copy failed. Please select and copy manually.', 'warning');
+        // Select the editor content for manual copying
+        editor.focus();
+        editor.select();
     } finally {
         document.body.removeChild(textarea);
     }
