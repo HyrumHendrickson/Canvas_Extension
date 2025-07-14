@@ -1,0 +1,370 @@
+/* Canvas Grade Tracker Styles */
+.canvas-grade-tracker-container {
+  background: #ffffff;
+  border: 1px solid #c7cdd1;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.grade-tracker-header {
+  background: #f5f5f5;
+  border-bottom: 1px solid #c7cdd1;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+}
+
+.grade-tracker-header:hover {
+  background: #eeeeee;
+}
+
+.grade-tracker-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2d3b45;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grade-tracker-title i {
+  color: #008ee2;
+  font-size: 16px;
+}
+
+.grade-tracker-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.grade-tracker-toggle:hover {
+  background: #d1d5d9;
+}
+
+.grade-tracker-toggle i {
+  color: #666;
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.grade-tracker-content {
+  padding: 15px;
+  max-height: 500px;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+.grade-tracker-content.collapsed {
+  max-height: 0;
+  padding: 0 15px;
+  overflow: hidden;
+}
+
+.grade-summary {
+  background: linear-gradient(135deg, #008ee2 0%, #0073c5 100%);
+  color: white;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overall-grade {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.grade-percentage {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.grade-points {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.grade-indicator {
+  width: 12px;
+  height: 50px;
+  border-radius: 6px;
+  position: relative;
+}
+
+.grade-indicator.grade-a {
+  background: linear-gradient(to top, #4caf50 0%, #8bc34a 100%);
+}
+
+.grade-indicator.grade-b {
+  background: linear-gradient(to top, #8bc34a 0%, #cddc39 100%);
+}
+
+.grade-indicator.grade-c {
+  background: linear-gradient(to top, #ffc107 0%, #ffeb3b 100%);
+}
+
+.grade-indicator.grade-d {
+  background: linear-gradient(to top, #ff9800 0%, #ffc107 100%);
+}
+
+.grade-indicator.grade-f {
+  background: linear-gradient(to top, #f44336 0%, #ff5722 100%);
+}
+
+.grade-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.stat label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.stat span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2d3b45;
+}
+
+.assignments-list h4 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  color: #2d3b45;
+  font-weight: bold;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 5px;
+}
+
+.grade-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.grade-item:hover {
+  background: #fafafa;
+  margin: 0 -10px;
+  padding: 8px 10px;
+  border-radius: 4px;
+}
+
+.grade-item:last-child {
+  border-bottom: none;
+}
+
+.assignment-name {
+  flex: 1;
+  font-size: 12px;
+  color: #2d3b45;
+  margin-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assignment-name a {
+  color: #008ee2;
+  text-decoration: none;
+}
+
+.assignment-name a:hover {
+  text-decoration: underline;
+}
+
+.assignment-grade {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.grade-score {
+  font-weight: bold;
+  font-size: 12px;
+  color: #2d3b45;
+}
+
+.grade-percent {
+  font-size: 10px;
+  color: #666;
+}
+
+.show-more {
+  text-align: center;
+  color: #666;
+  font-size: 11px;
+  margin: 10px 0 0 0;
+  font-style: italic;
+}
+
+.grade-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.grade-tracker-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #c7cdd1;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #2d3b45;
+  font-size: 11px;
+  font-weight: normal;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.grade-tracker-btn:hover {
+  background: #f5f5f5;
+  border-color: #008ee2;
+}
+
+.grade-tracker-btn.btn-primary {
+  background: #008ee2;
+  color: white;
+  border-color: #008ee2;
+}
+
+.grade-tracker-btn.btn-primary:hover {
+  background: #0073c5;
+  border-color: #0073c5;
+}
+
+.grade-tracker-btn i {
+  font-size: 12px;
+}
+
+.grade-tracker-loading {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #008ee2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error, .no-grades {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grade-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .grade-actions {
+    flex-direction: column;
+  }
+  
+  .grade-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .assignment-grade {
+    align-items: flex-start;
+  }
+}
+
+/* Integration with Canvas styles */
+#right-side .canvas-grade-tracker-container {
+  margin-bottom: 12px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .canvas-grade-tracker-container {
+    background: #2d3b45;
+    border-color: #394b59;
+  }
+  
+  .grade-tracker-header {
+    background: #394b59;
+    border-bottom-color: #4a5c6a;
+  }
+  
+  .grade-tracker-title {
+    color: #ffffff;
+  }
+  
+  .grade-tracker-content {
+    background: #2d3b45;
+  }
+  
+  .grade-stats {
+    background: #394b59;
+  }
+  
+  .stat span, .assignment-name, .grade-score {
+    color: #ffffff;
+  }
+  
+  .grade-tracker-btn {
+    background: #394b59;
+    border-color: #4a5c6a;
+    color: #ffffff;
+  }
+}

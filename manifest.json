@@ -1,28 +1,43 @@
 {
   "manifest_version": 3,
-  "name": "Canvas Python Code Editor",
-  "version": "2.0",
-  "description": "Add a Python code editor with execution capabilities to Canvas LMS. Run Python code directly in your browser.",
+  "name": "Canvas Grade Tracker",
+  "version": "1.0.0",
+  "description": "Detailed grade tracking and analysis for Canvas LMS",
   "permissions": [
     "activeTab",
-    "scripting"
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.instructure.com/*",
+    "*://*.canvas.*/*"
   ],
   "content_scripts": [
     {
-      "matches": ["https://*.instructure.com/*"],
+      "matches": [
+        "*://*.instructure.com/*",
+        "*://*.canvas.*/*"
+      ],
       "js": ["content.js"],
-      "css": ["style.css"],
+      "css": ["styles.css"],
       "run_at": "document_end"
     }
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Canvas Grade Tracker"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "web_accessible_resources": [
     {
-      "resources": ["index.html", "python-editor.js"],
-      "matches": ["https://*.instructure.com/*"]
+      "resources": ["grades-panel.html", "grades-panel.js"],
+      "matches": ["*://*.instructure.com/*", "*://*.canvas.*/*"]
     }
-  ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; frame-src https://trinket.io https://www.online-python.com https://www.w3schools.com;"
-  },
-  "author": "Hyrum Hendrickson"
+  ]
 }
