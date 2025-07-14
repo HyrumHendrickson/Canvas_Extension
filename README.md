@@ -108,6 +108,18 @@ The extension automatically adapts to your Canvas theme and supports:
 - Make sure you're on a Canvas course page (not the dashboard)
 - Try refreshing the page
 - Check that the extension is enabled in `chrome://extensions/`
+- **Custom Canvas Domain**: If your school uses a custom Canvas domain (not .instructure.com, .canvas.edu, or .canvaslms.com), you'll need to add it to the manifest.json file
+
+### Adding Custom Canvas Domains
+If your institution uses a custom Canvas URL (like `canvas.yourschool.edu`), you'll need to:
+
+1. Open `manifest.json`
+2. Add your domain to the `host_permissions` and `content_scripts.matches` arrays:
+```json
+"*://canvas.yourschool.edu/*"
+```
+3. Also update the domain checks in `content.js`, `background.js`, and `popup.js`
+4. Reload the extension
 
 ### Grades Not Loading
 - Ensure you're logged into Canvas

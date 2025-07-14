@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function initializePopup() {
   // Check if current tab is a Canvas page
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  const isCanvasPage = tab.url.includes('instructure.com') || tab.url.includes('canvas');
+  const isCanvasPage = tab.url.includes('instructure.com') || 
+                   tab.url.includes('canvas.edu') || 
+                   tab.url.includes('canvaslms.com');
   
   updateStatus(isCanvasPage);
   
@@ -70,7 +72,9 @@ function setupEventListeners() {
   // Open Canvas button
   document.getElementById('openCanvas').addEventListener('click', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    const isCanvasPage = tab.url.includes('instructure.com') || tab.url.includes('canvas');
+    const isCanvasPage = tab.url.includes('instructure.com') || 
+                     tab.url.includes('canvas.edu') || 
+                     tab.url.includes('canvaslms.com');
     
     if (isCanvasPage) {
       // Refresh grades on current tab
@@ -137,7 +141,9 @@ async function updateSetting(key, value) {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs[0] && tabs[0].id === tabId && changeInfo.status === 'complete') {
-      const isCanvasPage = tab.url.includes('instructure.com') || tab.url.includes('canvas');
+      const isCanvasPage = tab.url.includes('instructure.com') || 
+                       tab.url.includes('canvas.edu') || 
+                       tab.url.includes('canvaslms.com');
       updateStatus(isCanvasPage);
     }
   });

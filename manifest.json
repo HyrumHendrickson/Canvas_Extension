@@ -9,13 +9,15 @@
   ],
   "host_permissions": [
     "*://*.instructure.com/*",
-    "*://*.canvas.*/*"
+    "*://*.canvas.edu/*",
+    "*://*.canvaslms.com/*"
   ],
   "content_scripts": [
     {
       "matches": [
         "*://*.instructure.com/*",
-        "*://*.canvas.*/*"
+        "*://*.canvas.edu/*",
+        "*://*.canvaslms.com/*"
       ],
       "js": ["content.js"],
       "css": ["styles.css"],
@@ -37,7 +39,7 @@
   "web_accessible_resources": [
     {
       "resources": ["grades-panel.html", "grades-panel.js"],
-      "matches": ["*://*.instructure.com/*", "*://*.canvas.*/*"]
+      "matches": ["*://*.instructure.com/*", "*://*.canvas.edu/*", "*://*.canvaslms.com/*"]
     }
   ]
 }

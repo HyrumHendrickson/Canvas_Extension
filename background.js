@@ -16,7 +16,9 @@ chrome.runtime.onInstalled.addListener((details) => {
 // Handle extension icon click
 chrome.action.onClicked.addListener((tab) => {
   // Check if we're on a Canvas page
-  if (tab.url.includes('instructure.com') || tab.url.includes('canvas')) {
+  if (tab.url.includes('instructure.com') || 
+      tab.url.includes('canvas.edu') || 
+      tab.url.includes('canvaslms.com')) {
     // Inject content script if not already present
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
@@ -183,7 +185,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 async function checkGradesOnActiveTabs() {
   try {
     const tabs = await chrome.tabs.query({
-      url: ['*://*.instructure.com/*', '*://*.canvas.*/*']
+      url: ['*://*.instructure.com/*', '*://*.canvas.edu/*', '*://*.canvaslms.com/*']
     });
     
     for (const tab of tabs) {
@@ -221,7 +223,9 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 // Handle tab updates to refresh grades
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && 
-      (tab.url.includes('instructure.com') || tab.url.includes('canvas'))) {
+      (tab.url.includes('instructure.com') || 
+       tab.url.includes('canvas.edu') || 
+       tab.url.includes('canvaslms.com'))) {
     // Small delay to let Canvas load
     setTimeout(() => {
       chrome.tabs.sendMessage(tabId, { action: 'refreshGrades' }).catch(() => {

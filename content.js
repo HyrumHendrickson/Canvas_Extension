@@ -30,7 +30,8 @@ class CanvasGradeTracker {
 
   isCanvasPage() {
     return window.location.hostname.includes('instructure.com') || 
-           window.location.hostname.includes('canvas') ||
+           window.location.hostname.includes('canvas.edu') ||
+           window.location.hostname.includes('canvaslms.com') ||
            document.querySelector('#application') !== null;
   }
 
